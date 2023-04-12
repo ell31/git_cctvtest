@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RTSP Camera Stream</title>
+</head>
+<body>
+    <table width="100%" height="100%" border="1">
+        <tr>
+            <td width="20%">RTSP Camera Stream 1</td>
+            <td width="20%">RTSP Camera Stream 2</td>
+            <td width="20%">RTSP Camera Stream 3</td>
+            <td width="20%">RTSP Camera Stream 4</td>
+            <td width="20%">RTSP Camera Stream 5</td>
+        </tr>
+        <tr>
+            <td><img src="{{ url_for('video_feed', camNum='0') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='1') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='2') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='3') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='4') }}" width="100%" /></td>
+        </tr>
+        <tr>
+            <td>RTSP Camera Stream 6</td>
+            <td>RTSP Camera Stream 7</td>
+            <td>RTSP Camera Stream 8</td>
+            <td>RTSP Camera Stream 9</td>
+            <td>RTSP Camera Stream 10</td>
+        </tr>
+        <tr>
+            <td><img src="{{ url_for('video_feed', camNum='5') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='6') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='7') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='8') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='9') }}" width="100%" /></td>
+        </tr>
+        <!--
+        <tr>
+            <td>RTSP Camera Stream 11</td>
+            <td>RTSP Camera Stream 12</td>
+            <td>RTSP Camera Stream 13</td>
+            <td>RTSP Camera Stream 14</td>
+            <td>RTSP Camera Stream 15</td>
+        </tr>
+        <tr>
+            <td><img src="{{ url_for('video_feed', camNum='10') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='11') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='12') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='13') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='14') }}" width="100%" /></td>
+        </tr>
+        <tr>
+            <td>RTSP Camera Stream 16</td>
+            <td>RTSP Camera Stream 17</td>
+            <td>RTSP Camera Stream 18</td>
+            <td>RTSP Camera Stream 19</td>
+            <td>RTSP Camera Stream 20</td>
+        </tr>
+        <tr>
+            <td><img src="{{ url_for('video_feed', camNum='15') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='16') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='17') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='18') }}" width="100%" /></td>
+            <td><img src="{{ url_for('video_feed', camNum='19') }}" width="100%" /></td>
+        </tr>
+    -->
+    </table>
+
+
+</body>
+</html>
