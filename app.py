@@ -13,12 +13,13 @@ from threading import Thread
 from queue import Queue
 from flask import stream_with_context
 
+version = '0.1.0'
 cv2.setNumThreads(2)
 
 if cv2.ocl.haveOpenCL() :
    cv2.ocl.setUseOpenCL(True)
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='template')
 #app = Flask(__name__, template_folder='template')
 #app.secret_key = '$aiware_web_key$'
 
@@ -218,7 +219,7 @@ def video_feed():
 
     return Response(stream_with_context(gen_frames(camNum)), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/cctv')
+@app.route('/')
 def index():
     return render_template('cctv_rtsp.html')
 
@@ -226,6 +227,19 @@ def index():
 #def index():
 #    return render_template('cctv_rtsp.html')
    
-@app.route("/")
-def index():
-    return render_template('./index.html')
+#@app.route("/")
+#def index():
+#    return render_template('index.html')
+
+
+if __name__ == '__main__' :
+    
+    print('------------------------------------------------')
+    print('Wandlab CV - version ' + version )
+    print('------------------------------------------------')
+    
+    #app.run( host='0.0.0.0', port=5000 )
+
+    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+    ssl_context.load_cert_chain(certfile='D:/1.AIWare/3.Project/U.Japen_Docker/1.Program/aiware-docker-web_20230322/zenai-cloud.com/fullchain2.pem',keyfile='D:/1.AIWare/3.Project/U.Japen_Docker/1.Program/aiware-docker-web_20230322/zenai-cloud.com/privkey2.pem')
+    app.run(host='0.0.0.0',port=5202,ssl_context=ssl_context)# ,debug=True
