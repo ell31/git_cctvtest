@@ -19,7 +19,7 @@ cv2.setNumThreads(2)
 if cv2.ocl.haveOpenCL() :
    cv2.ocl.setUseOpenCL(True)
 
-app = Flask(__name__, template_folder='template')
+app = Flask(__name__, template_folder='templates')
 #app = Flask(__name__, template_folder='template')
 app.secret_key = '$aiware_web_key$'
 
