@@ -27,6 +27,7 @@ jobs:
               env:
                 - name: FLASK_ENV
                   value: production
+              install: opencv-python
               ports: 5000
               start: gunicorn -b 0.0.0.0:5000 app:app
             context:
