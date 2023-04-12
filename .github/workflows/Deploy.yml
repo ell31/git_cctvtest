@@ -28,10 +28,6 @@ jobs:
                 - name: FLASK_ENV
                   value: production
               install: 
-                  apt-get update
-              install: 
-                  apt-get -y install libgl1-mesa-glx
-              install: 
                   pip install opencv-python
               install: 
                   pip install flask
