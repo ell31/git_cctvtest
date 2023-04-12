@@ -164,7 +164,7 @@ def gen_frames(CamNum):
             fps = 1/(sec)
             str = "FPS : %0.1f" % fps
             cv2.putText(frame, str, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255),3)
-            
+            '''
             if (time.time() - sendTime) > 10.0:
                 d_now = datetime.datetime.now()
                 save_file = "d:/" + mac + "_" + d_now.strftime('%Y%m%d%H%M%S%f') + ".jpg"
@@ -196,7 +196,7 @@ def gen_frames(CamNum):
                 os.remove(save_file)
                 
                 #print("Send Image : ", save_file)
-
+            '''
             
             
         if cv2.waitKey(10) & 0xFF == ord('q'):
