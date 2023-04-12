@@ -27,8 +27,8 @@ rtsp_url = 'rtsp://admin:admin@192.168.0.30:554/stream2'
 
 #'0030BAFF3161'
 userData =[]
-temp = {'mac':'000000000001','event':'timelapse','url':'rtsp://admin:admin@192.168.0.30:554/stream2'}
-userData.append(temp)
+#temp = {'mac':'000000000001','event':'timelapse','url':'rtsp://admin:admin@192.168.0.30:554/stream2'}
+#userData.append(temp)
 temp = {'mac':'000000000002','event':'timelapse','url':'rtsp://210.99.70.120:1935/live/cctv001.stream'}
 userData.append(temp)
 '''
@@ -204,9 +204,7 @@ def gen_frames(CamNum):
     cap.release()
     
     
-@app.route('/')
-def index():
-    return render_template('cctv_rtsp.html')
+
 
 @app.route('/video_feed', methods=['GET','POST'])
 def video_feed():
@@ -222,7 +220,10 @@ def video_feed():
 
 
 
-
+#@app.route('/')
+#def index():
+#    return render_template('cctv_rtsp.html')
+   
 @app.route("/")
 def index():
     return render_template('./index.html')
