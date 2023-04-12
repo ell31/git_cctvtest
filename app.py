@@ -218,7 +218,9 @@ def video_feed():
 
     return Response(stream_with_context(gen_frames(camNum)), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-
+@app.route('/cctv')
+def index():
+    return render_template('cctv_rtsp.html')
 
 #@app.route('/')
 #def index():
