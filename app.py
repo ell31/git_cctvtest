@@ -21,7 +21,7 @@ if cv2.ocl.haveOpenCL() :
 
 app = Flask(__name__, template_folder='template')
 #app = Flask(__name__, template_folder='template')
-#app.secret_key = '$aiware_web_key$'
+app.secret_key = '$aiware_web_key$'
 
 # Replace the IP address and port number with your RTSP server's address and port number
 rtsp_url = 'rtsp://admin:admin@192.168.0.30:554/stream2'
@@ -241,5 +241,5 @@ if __name__ == '__main__' :
     #app.run( host='0.0.0.0', port=5000 )
 
     ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-    ssl_context.load_cert_chain(certfile='D:/1.AIWare/3.Project/U.Japen_Docker/1.Program/aiware-docker-web_20230322/zenai-cloud.com/fullchain2.pem',keyfile='D:/1.AIWare/3.Project/U.Japen_Docker/1.Program/aiware-docker-web_20230322/zenai-cloud.com/privkey2.pem')
-    app.run(host='0.0.0.0',port=5202,ssl_context=ssl_context)# ,debug=True
+    ssl_context.load_cert_chain(certfile='./key/fullchain2.pem',keyfile='./key/privkey2.pem')
+    app.run(host='0.0.0.0',port=5000,ssl_context=ssl_context)# ,debug=True
