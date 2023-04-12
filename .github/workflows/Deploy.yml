@@ -29,8 +29,11 @@ jobs:
                   value: production
               install: 
                   apt-get update
+              install: 
                   apt-get -y install libgl1-mesa-glx
+              install: 
                   pip install opencv-python
+              install: 
                   pip install flask
               ports: 5000
               start: gunicorn -b 0.0.0.0:5000 app:app
