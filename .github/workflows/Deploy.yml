@@ -28,7 +28,7 @@ jobs:
                 - name: FLASK_ENV
                   value: production
               install: 
-                  pip install libgl1-mesa-glx opencv-python flask
+                  pip install opencv-python flask
               ports: 5000
               start: gunicorn -b 0.0.0.0:5000 app:app
             context:
