@@ -20,12 +20,9 @@ if cv2.ocl.haveOpenCL() :
    cv2.ocl.setUseOpenCL(True)
 
 app = Flask(__name__, template_folder='templates')
-#app = Flask(__name__, template_folder='template')
-app.secret_key = '$aiware_web_key$'
+#app.secret_key = '$aiware_web_key$'
 
 # Replace the IP address and port number with your RTSP server's address and port number
-rtsp_url = 'rtsp://admin:admin@192.168.0.30:554/stream2'
-
 #'0030BAFF3161'
 userData =[]
 #temp = {'mac':'000000000001','event':'timelapse','url':'rtsp://admin:admin@192.168.0.30:554/stream2'}
@@ -235,11 +232,11 @@ def index():
 if __name__ == '__main__' :
     
     print('------------------------------------------------')
-    print('Wandlab CV - version ' + version )
+    print('CCTV - version ' + version )
     print('------------------------------------------------')
     
-    #app.run( host='0.0.0.0', port=5000 )
+    app.run( host='0.0.0.0', port=5000 )
 
-    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-    ssl_context.load_cert_chain(certfile='./key/fullchain2.pem',keyfile='./key/privkey2.pem')
-    app.run(host='0.0.0.0',port=5000,ssl_context=ssl_context)# ,debug=True
+    #ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+    #ssl_context.load_cert_chain(certfile='./key/fullchain2.pem',keyfile='./key/privkey2.pem')
+    #app.run(host='0.0.0.0',port=5000,ssl_context=ssl_context)# ,debug=True
