@@ -1,0 +1,14 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Camera Feeds</title>
+</head>
+<body>
+{% for cam in cams %}
+    <h2>Camera {{ cam.id }}</h2>
+    <img src="{{ url_for('video_feed', cam_id=cam.id) }}">
+{% endfor %}
+</body>
+</html>
