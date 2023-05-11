@@ -1,0 +1,347 @@
+<!doctype html>
+<html>
+    <head>
+        <title>CCTV Camera List</title>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        
+
+    </head>
+    <style>
+       
+        .styled-table {
+            border-collapse: collapse;
+            margin: 5px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .styled-table thead tr {
+            background-color: #00DD00;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .styled-table thead th {
+            background-color: #AAAAAA;
+        }
+        
+        .styled-table th,
+        .styled-table td {
+            padding: 5px 7px;
+        }
+        
+
+        .styled-table tbody tr:hover,
+        .styled-table tbody tr:nth-of-type(even):hover {
+            background-color: #FFFF00;
+        }
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+        .styled-table tbody tr:first-of-type {
+            border-top: 2px solid #009879;
+        }
+        .styled-table tbody tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+
+        
+        
+
+        
+    </style>
+    <body>
+        <h1>
+            Camera List
+            <button onclick="CamStartAll()">RUN</button>
+            <button onclick="CamStopAll()">STOP</button>
+        </h1>
+        <table  width="100%" style="height: 100vh; border:10px;" border="0" >
+            <tr>
+                <td width="50%" style="vertical-align: top;">
+                    <table  width="100%" margin="0"  class="styled-table">
+                        <thead>
+                            <tr>
+                                <th width="100" align="center">MAC</th>
+                                <th width="100" align="center">Created</th>
+                                <th width="70" align="center">Opened</th>
+                                <th width="65" align="center">Started</th>
+                                <th width="130" align="center">RUN/STOP/DEL</th>
+                                <th width="60" align="center">VIEW</td>
+                                <th width="130" align="center">Inference</th>
+                                <th width="70" align="center">MODE</th>
+                                <th align="center">Address</th>
+                            </tr>
+                            <tr>
+                                <form>
+                                    <td align="center"><input type="text" id="mac" style="width: 100%;"/></td>
+                                    <td align="center"><button type="button" id="submit-button">SAVE</button></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center">
+                                        <select id="evt" name="evt">
+                                            <option value="evt" selected>event</option>
+                                            <option value="timelapse">timelapse</option>
+                                        </select>
+                                    </td>
+                                    <td align="center"><input type="text" id="address" style="width: 100%;"/></td>
+                                </form>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            {% for key, value in userData.items() %}
+                                <tr>
+                                    <td align="center">{{ key }}</td>
+                                    <td align="center"><span id="Created{{ key }}"></span></td>
+                                    <td align="center"><span id="isOpened{{ key }}"></span></td>
+                                    <td align="center"><span id="Started{{ key }}"></span></td>
+                                    <td align="center">
+                                        <button id="btnStart{{ key }}" name="btnStart{{ key }}" onclick="CamStartOne('{{ key }}')" style="display: none">RUN</button>
+                                        <button id="btnStop{{ key }}" name="btnStop{{ key }}" onclick="CamStopOne('{{ key }}')" style="display: none">STOP</button>
+                                        <button id="btnDel{{ key }}" name="btnDel{{ key }}" onclick="CamDelOne('{{ key }}')" style="display: none">DEL</button>
+                                    </td>
+                                    <td align="center">
+                                        <button id="btnView{{ key }}" name="btnView{{ key }}" onclick="CamViewOne('{{ key }}')">VIEW</button>
+                                    </td>
+                                    <td align="center">
+                                        <span id="inferenceCount{{ key }}"></span>/
+                                        <span id="inference{{ key }}"></span>/
+                                        <input type="text" id="Inputinference{{ key }}" onkeypress="setInference(event, '{{ key }}')" style="width: 30%;"/>
+                                    </td>
+                                    <td align="center">
+                                        <select id="event{{ key }}" name="event{{ key }}" onchange="setEvent(event, '{{ key }}')">
+                                            <option value="evt" {% if value['event'] == 'evt' %} selected {% endif %} >event</option>
+                                            <option value="timelapse" {% if value['event'] == 'timelapse' %} selected {% endif %} >timelapse</option>
+                                        </select>
+                                    </td>
+                                    <td>{{ value['url'] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+                <td width="50%">
+                    <iframe id="inlineFrame" border="0"
+                        title="Inline Frame"
+                        width="100%" 
+                        height="100%"
+                        src="">
+                    </iframe>
+                </td>
+            </tr>
+        </table>
+
+
+
+
+
+        <script>
+            $(document).ready(function() {
+                setInterval(function() {
+                    $.ajax({
+                        url: '/GetStatus',
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function(data) {
+                            for (let key in data) {
+                                //alert("1 " + key);
+                                //alert("4 " + data[key].Created);
+                                //alert('#Created dic[key] ');
+                                $('#Created' + key).text(data[key].Created);
+                                $('#isOpened' + key).text(data[key].isOpened);
+                                $('#Started' + key).text(data[key].Started);
+                                $('#inference' + key).text(data[key].inferenctTime);
+                                $('#inferenceCount' + key).text(data[key].inferenctCount);
+                                if (data[key].Started == true)
+                                {
+                                    var button1 = document.getElementById('btnStart' + key);
+                                    button1.style.display = "none";
+                                    var button2 = document.getElementById('btnStop' + key);
+                                    button2.style.display = "inline-block";
+                                    var button3 = document.getElementById('btnDel' + key);
+                                    button3.style.display = "none";
+                                    var button4 = document.getElementById('btnView' + key);
+                                    button4.style.display = "inline-block";
+                                } else {
+                                    var button1 = document.getElementById('btnStart' + key);
+                                    button1.style.display = "inline-block";
+                                    var button2 = document.getElementById('btnStop' + key);
+                                    button2.style.display = "none";
+                                    var button3 = document.getElementById('btnDel' + key);
+                                    button3.style.display = "inline-block";
+                                    var button4 = document.getElementById('btnView' + key);
+                                    button4.style.display = "none";
+                                }
+                            }
+                        }
+                    });
+                }, 1000);
+            });
+
+            $(document).ready(function() {
+                $('#submit-button').click(function() {
+                    var mac = $('#mac').val();
+                    var address = $('#address').val();
+                    var evt = $('#evt').val();
+                    if (mac == "" && address == "")
+                    {
+                        alert("empty data!")
+                        return;
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: '/AddCam',
+                        data: { 
+                            mac: mac,
+                            address: address,
+                            evt: evt
+                        },
+                        success: function(response) {
+                            alert(response);
+                            //window.open('/rtsp_CamListView');
+                            location.href = "/rtsp_CamListView";
+                        }
+                    });
+                });
+            });
+
+            function CamStartAll() 
+            {
+                $.ajax({
+                    url: '/start',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(data) {
+                        
+                    }
+                });
+            }
+            function CamStopAll() 
+            {
+                $.ajax({
+                    url: '/stop',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(data) {
+                        
+                    }
+                });
+            }
+            function CamStartOne(macc) 
+            {
+                $.ajax({
+                    url: '/StartOne',
+                    type: 'POST',
+                    data: {
+                        mac : macc
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        
+                    }
+                });
+            }
+
+            function CamStopOne(macc) 
+            {
+                $.ajax({
+                    url: '/StopOne',
+                    type: 'POST',
+                    data: {
+                        mac : macc
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        
+                    }
+                });
+            }
+            function CamDelOne(macc) 
+            {
+                if(confirm("realy??")){
+                    // 사용자가 "확인" 버튼을 클릭한 경우 실행될 코드
+                } else {
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/DelCam',
+                    data: {
+                        mac : macc
+                    },
+                    success: function(response) {
+                        alert(response);
+                        //window.open('/rtsp_CamListView');
+                        location.href = "/rtsp_CamListView";
+                    }
+                });
+            }
+
+            function setEvent(event, macc) 
+            {
+                if(confirm("realy??")){
+                    // 사용자가 "확인" 버튼을 클릭한 경우 실행될 코드
+                } else {
+                    return;
+                }
+
+                var controlId = event.target.id;
+                var selectElement = document.getElementById(controlId);
+                var selectedValue = selectElement.value;
+                $.ajax({
+                    type: 'POST',
+                    url: '/setEvent',
+                    data: {
+                        mac : macc,
+                        event : selectedValue
+                    },
+                    success: function(response) {
+                        
+                        alert(response);
+                    }
+                });
+            }
+            function setInference(event, macc) {
+                if (event.keyCode === 13) {
+                    var controlId = event.target.id;
+                    var Element = document.getElementById(controlId);
+                    var value = Element.value;
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/setInferenceTime',
+                        data: {
+                            mac : macc,
+                            timeValue : value
+                        },
+                        success: function(response) {
+                            
+                            alert(response);
+                        }
+                    });
+                }
+              }
+            
+            function CamViewOne(macc) 
+            {
+                var myFrame = document.getElementById("inlineFrame");
+                //alert("rtsp.html?mac="+macc);
+                myFrame.src = "view?mac="+macc;
+                
+            }
+        </script>
+        
+        
+    </body>
+</html>
